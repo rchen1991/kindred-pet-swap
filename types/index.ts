@@ -8,4 +8,5 @@ export interface Pet {
   city: string;
   photoUrl: string;
   status: PetStatus;
+  waitlistCount: number;
 }
