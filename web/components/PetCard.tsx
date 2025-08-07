@@ -7,8 +7,13 @@ interface PetCardProps {
 }
 
 const PetCard: React.FC<PetCardProps> = ({ pet, onBook }) => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
   const handleBook = async () => {
     // TODO: Implement booking logic
+    setIsLoading(true)
+    await onBook(pet.id)
+    setIsLoading(false)
   };
 
   return (
@@ -34,14 +39,26 @@ const PetCard: React.FC<PetCardProps> = ({ pet, onBook }) => {
               Booked
             </span>
           )}
+          {pet.status === 'booked' && (<p>Currently Waitlisting: {pet.waitlistCount ? pet.waitlistCount : 0}</p>)}
         </div>
 
         {pet.status === "available" && (
           <button
             onClick={handleBook}
             className="mt-4 w-full bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-md disabled:opacity-50"
+            disabled={isLoading}
           >
-            Book Now
+            {isLoading ? 'Booking...' : 'Book Now'}
+          </button>
+        )}
+
+        {pet.status === "booked" && (
+          <button
+            onClick={handleBook}
+            className="mt-4 w-full bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-md disabled:opacity-50"
+            disabled={isLoading}
+          >
+            {isLoading ? 'Adding to Waitlist...' : 'Add to Waitlist'}
           </button>
         )}
       </div>

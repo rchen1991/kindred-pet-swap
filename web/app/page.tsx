@@ -39,8 +39,16 @@ export default function Home() {
 
       // Update local state
       setPets((prevPets) =>
-        prevPets.map((pet) =>
-          pet.id === petId ? { ...pet, status: "booked" } : pet
+        prevPets.map((pet) => {
+          if (pet.status === 'booked') {
+            if (pet.waitlistCount) {
+              return pet.id === petId ? {...pet, waitlistCount: pet.waitlistCount + 1} : pet
+            } else {
+              return pet.id === petId ? {...pet, waitlistCount: 1} : pet
+            }
+          }
+          return pet.id === petId ? { ...pet, status: "booked" } : pet
+        }
         )
       );
 
@@ -119,17 +127,29 @@ export default function Home() {
           height={28}
         />
         <h1 className="text-3xl font-bold">Pet Swap</h1>
-      </nav>
-      <div className="container mx-auto">
-        <p className="mb-6">
+        <p>
           Find pets available for swapping or book your next pet-sitting
           adventure!
         </p>
+      </nav>
+      <div className="container mx-auto">
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {pets.map((pet) => (
-            <PetCard key={pet.id} pet={pet} onBook={handleBookPet} />
-          ))}
+        <h2 className="mb-6 text-2xl font-bold">Available</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+          {pets.map((pet) => {
+            if (pet.status === 'available') {
+              return (<PetCard key={pet.id} pet={pet} onBook={handleBookPet} />)
+
+            }
+          })}
+        </div>
+        <h2 className="mb-6 text-2xl font-bold">Booked</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {pets.map((pet) => {
+            if (pet.status === 'booked') {
+              return (<PetCard key={pet.id} pet={pet} onBook={handleBookPet} />)
+            }
+          })}
         </div>
       </div>
     </div>

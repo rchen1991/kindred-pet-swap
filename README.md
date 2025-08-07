@@ -92,3 +92,23 @@ npm run dev
 
 **Thanks and have fun with it!**
 If you get stuck or have questions, don't hesitate to reach out to your recruiter.
+
+### Approach
+- Split pets into Available and Booked to help draw more attention to available Pets
+   - Tradeoff: This unfortunately doesn't have the greatest UX as it will preserve the ordering of the original array and not have a Queue-like feel to it. 
+      To address that, we can use two separate arrays to manage available/booked but this will require more state management and computation.
+- Add a waitlist button to Booked pets to add some UI to the booked pets
+   - This is extremely barebones and does not have any userId handling and is essentially an incremental counter
+- Added a small loading state in between booking and waitlisting
+
+### Time Spent
+- 1 hour
+
+### AI
+- None
+
+### More Time
+- Improve waitlist functionality
+- change to a carousel for the images to prevent overflow if there are more items
+- add Pet product page to show more details after clicking on the card
+- add filtering
